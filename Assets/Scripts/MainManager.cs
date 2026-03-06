@@ -11,8 +11,10 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text CurrentPlayer; //dodala
     public GameObject GameOverText;
     
+
     private bool m_Started = false;
     private int m_Points;
     
@@ -36,6 +38,10 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        //dodala naknadno
+        CurrentPlayer.text = MenuManager.Instance.playerName;
+        
     }
 
     private void Update()
@@ -72,5 +78,6 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+                
     }
 }
