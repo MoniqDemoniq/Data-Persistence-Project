@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,7 +12,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
-    public Text CurrentPlayer; //dodala
+    public Text bestScoreText; // dodala
     public GameObject GameOverText;
     
 
@@ -39,8 +40,6 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        //dodala naknadno
-        CurrentPlayer.text = MenuManager.Instance.playerName;
         
     }
 
@@ -79,5 +78,17 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         GameOverText.SetActive(true);
                 
+    }
+
+    // dodala
+    public void OnGameOver(int score)
+    {
+        if (score > MenuManager.Instance.BestScore)
+        {
+            MenuManager.Instance.BestScore = score;
+            MenuManager.Instance.BestPlayerName = MenuManager.Instance.CurrentPlayerName;
+
+            MenuManager.Instance.SaveGame();
+        }
     }
 }
