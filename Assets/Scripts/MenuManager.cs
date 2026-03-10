@@ -5,28 +5,34 @@ using TMPro;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance; // Store the data you want to persist between scenes
-    public string CurrentPlayerName; // dodala
-    public string BestPlayerName; // dodala
-    public int BestScore; // dodala
 
+    // added Persistent Objects
+    public string BestPlayerName; 
+    public int BestScore; 
+    public string CurrentPlayerName; 
+    
+    
     private void Awake()
     {
         
         if (Instance != null) // Singleton Modify the Awake method, only a single instance of the MenuManager can ever exist
         {
             Destroy(gameObject);
-            return;
+            return; // stops the rest of the method from executing any more logic
         }
-        
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
 
-        LoadGame(); // dodala
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            LoadGame(); 
+        }
 
     }
 
 
-    [System.Serializable] // dodala
+    [System.Serializable] // Data persistence between sessions
     class SaveData
     {
         public string currentPlayerName;
@@ -35,7 +41,7 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    public void SaveGame() // dodala
+    public void SaveGame()  // Save method that transforms that class into JSON format and writes it to a file
     {
         SaveData data = new SaveData
         {
@@ -50,7 +56,7 @@ public class MenuManager : MonoBehaviour
         File.WriteAllText(path, json);
     }
 
-    public void LoadGame() // dodala
+    public void LoadGame() // Load method that transforms the data from the JSON file back into the SaveData class
     {
         string path = Application.persistentDataPath + "/savefile.json";
         if (!File.Exists(path))

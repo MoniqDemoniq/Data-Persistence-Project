@@ -7,12 +7,14 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+    public static MainManager Instance;
+
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
 
     public Text ScoreText;
-    public Text bestScoreText; // dodala
+    public Text bestScoreText; // added variable for the best score
     public GameObject GameOverText;
     
 
@@ -40,7 +42,10 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        
+        // added code for showing the best player's name and score
+        bestScoreText.text =
+    $"Best Score : {MenuManager.Instance.BestPlayerName} : {MenuManager.Instance.BestScore}";
+
     }
 
     private void Update()
@@ -73,15 +78,15 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
     }
 
-    public void GameOver()
+    public void GameOver() // function game ends and the score is checked
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-                
+        OnGameOver(m_Points);
     }
 
-    // dodala
-    public void OnGameOver(int score)
+    
+    public void OnGameOver(int score)  // function game ends and the best score is checked
     {
         if (score > MenuManager.Instance.BestScore)
         {
@@ -89,6 +94,10 @@ public class MainManager : MonoBehaviour
             MenuManager.Instance.BestPlayerName = MenuManager.Instance.CurrentPlayerName;
 
             MenuManager.Instance.SaveGame();
+
+            bestScoreText.text =
+    $"Best Score : {MenuManager.Instance.BestPlayerName} : {MenuManager.Instance.BestScore}";
+
         }
     }
 }
